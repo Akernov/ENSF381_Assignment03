@@ -47,7 +47,7 @@ nav a:hover {
 }
 
 /* Main Content */
-main[class="login"], main[class="index"], main[class="signup"] {
+main[class="login"], main[class="index"], main[class="signUp"] {
     padding: 20px;
     text-align: center;
     align-items: center;
