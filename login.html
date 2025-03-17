@@ -33,7 +33,7 @@
         <br>
         <div id="messageBox" class="hidden"></div>
         <br>
-        <a href="signup.html">Sign Up</a> | <a href="forgot_password.html">Forgot Password?</a>
+        <a href="signup.html">Sign Up</a> | <a>Forgot Password?</a>
     </main>
 
     <footer>
@@ -62,15 +62,15 @@
                     const user = users.find(u => u.username.toLowerCase() === username && u.email.toLowerCase() === password);
 
                     if (user) {
-                        showMessage("✅ Login successful! Redirecting...", "success");
+                        showMessage("Login successful! Redirecting...", "success");
                         setTimeout(() => {
                             window.location.href = "course_view.html";
                         }, 2000);
                     } else {
-                        showMessage("❌ Invalid username or password!", "error");
+                        showMessage("Invalid username or password!", "error");
                     }
                 } catch (error) {
-                    showMessage("⚠️ Error fetching user data. Please try again later.", "error");
+                    showMessage("Error fetching user data. Please try again later.", "error");
                 }
             });
 
