@@ -31,7 +31,7 @@
             <button type="submit">Login</button>
         </form>
         <br>
-        <div id="messageBox" class="hidden"></div>
+        <div id="messageBox" class="box"></div>
         <br>
         <a href="signup.html">Sign Up</a> | <a>Forgot Password?</a>
     </main>
@@ -45,6 +45,8 @@
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.getElementById("loginForm");
             const messageBox = document.getElementById("messageBox");
+
+            messageBox.classList.add("hidden");
 
             form.addEventListener("submit", async (event) => {
                 event.preventDefault();
@@ -76,13 +78,13 @@
 
             function showMessage(message, type) {
                 messageBox.textContent = message;
-                messageBox.className = `message ${type}`;
+    
+                // Keep the 'box' class while adding the message type class
+                messageBox.className = `box`;
+    
+                // Remove the hidden class to show the message
                 messageBox.classList.remove("hidden");
-
-                // Keep the message visible for 3 seconds
-                setTimeout(() => messageBox.classList.add("hidden"), 3000);
             }
-
         });
     </script>
 </body>
