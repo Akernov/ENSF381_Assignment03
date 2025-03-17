@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - LMS</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
+
 <body>
     <header>
         <img src="logo.jpg" alt="LMS Logo" style="width: 100px; height: 100px;">
@@ -16,26 +18,73 @@
             <a href="index.html">Homepage</a>
         </nav>
     </div>
-    
+
     <main class="login">
         <h2>LMS Login</h2>
-        <form>
+        <form id="loginForm">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br><br>
-            
+
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br>
-        </form> 
+            <input type="password" id="password" name="password" required><br><br>
+
+            <button type="submit">Login</button>
+        </form>
         <br>
-        <br>  
-            <a href="course_view.html">
-                <button>Login</button>
-            </a><br><br>
-            <a href="signup.html">Forgot Password?</a>
-        
+        <div id="messageBox" class="hidden"></div>
+        <br>
+        <a href="signup.html">Sign Up</a> | <a href="forgot_password.html">Forgot Password?</a>
     </main>
+
     <footer>
         <p>&copy; 2025 LMS. All rights reserved.</p>
     </footer>
+
+    <!-- JavaScript Inside HTML -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("loginForm");
+            const messageBox = document.getElementById("messageBox");
+
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const username = document.getElementById("username").value.trim().toLowerCase();
+                const password = document.getElementById("password").value.trim().toLowerCase();
+
+                try {
+                    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch user data.");
+                    }
+
+                    const users = await response.json();
+                    const user = users.find(u => u.username.toLowerCase() === username && u.email.toLowerCase() === password);
+
+                    if (user) {
+                        showMessage("✅ Login successful! Redirecting...", "success");
+                        setTimeout(() => {
+                            window.location.href = "course_view.html";
+                        }, 2000);
+                    } else {
+                        showMessage("❌ Invalid username or password!", "error");
+                    }
+                } catch (error) {
+                    showMessage("⚠️ Error fetching user data. Please try again later.", "error");
+                }
+            });
+
+            function showMessage(message, type) {
+                messageBox.textContent = message;
+                messageBox.className = `message ${type}`;
+                messageBox.classList.remove("hidden");
+
+                // Keep the message visible for 3 seconds
+                setTimeout(() => messageBox.classList.add("hidden"), 3000);
+            }
+
+        });
+    </script>
 </body>
+
 </html>
