@@ -31,9 +31,7 @@
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required><br>
 
-    <a href="login.html">
-      <button onClick="validateInput()" class="signUpB">Sign Up</button>
-    </a>
+    <button onClick="validateInput()" class="signUpB">Sign Up</button>
   </form>
 <br><br>
   <a href="login.html">Already have an account? Login here</a>
@@ -42,7 +40,59 @@
   <p>&copy; 2025 LMS. All rights reserved.</p>
 </footer>
 <script>
+  function validateInput(){
+    let valid = true;
+    // Username verification
+    let username = document.getElementById("username").value;
+    if (username.length > 20 || username.length < 3) {
+      console.log("Username must be between 3 and 20 characters long.");
+      valid = false;
+    }
+    let userAlphaNum = /^[a-zA-Z0-9_-]+$/.test(username);
+    if (!userAlphaNum) {
+      console.log("Username must contain only alphanumeric characters, hyphens, and underscores.");
+      valid = false;
+    }
+    let firstChar = /^[a-zA-Z]/.test(username)
+    if (!firstChar) {
+      console.log("Username must start with a letter.");
+      valid = false;
+    }
+    // Password verification
+    let password = document.getElementById("password").value;
+    if (password.length <= 8) {
+      console.log("Password must be at least 8 characters long.");
+      valid = false;
+    }
+    let passPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])$/.test(username);
+    if (!passPattern) {
+      console.log("Password must contain at least one uppercase letter, one lowercase letter, one number, and one\n" +
+              "special character.");
+      valid = false;
+    }
+    let spaceCheck = /\s/.test(password);
+    if (password) {
+      console.log("Password must not contain any spaces");
+      valid = false;
+    }
+    // ConfirmPassword verification
+    let confirmPassword = document.getElementById("confirmPassword").value;
+    if (confirmPassword !== password) {
+      console.log("Password must match");
+      valid = false;
+    }
+    // Email verification
+    let email = document.getElementById("email").value;
+    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+    if (!email) {
+      console.log("Valid email format must be provided (e.g., username@example.com)");
+      valid = false;
+    }
 
+    if (valid) {
+
+    }
+  }
 </script>
 </body>
 </html>
