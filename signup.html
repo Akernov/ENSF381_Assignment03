@@ -31,9 +31,11 @@
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required><br>
 
-    <button onClick="validateInput()" class="signUpB">Sign Up</button>
+    <button type = "button" onClick="validateInput()" class="signUpB">Sign Up</button>
   </form>
-<br><br>
+  <br>
+  <div id="output"></div>
+  <br>
   <a href="login.html">Already have an account? Login here</a>
 </main>
 <footer>
@@ -41,57 +43,73 @@
 </footer>
 <script>
   function validateInput(){
-    let valid = true;
+    let validUserArray = []
+    let validPassArray = [];
+    let validConfirm = true;
+    let validEmailArray = [];
+    // Dynamic Box
+    let outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = '';
+    outputDiv.className = "box"
     // Username verification
     let username = document.getElementById("username").value;
     if (username.length > 20 || username.length < 3) {
-      console.log("Username must be between 3 and 20 characters long.");
-      valid = false;
+      validUserArray.push("Must be between 3 and 20 characters long");
     }
     let userAlphaNum = /^[a-zA-Z0-9_-]+$/.test(username);
     if (!userAlphaNum) {
-      console.log("Username must contain only alphanumeric characters, hyphens, and underscores.");
-      valid = false;
+      validUserArray.push("Must contain only alphanumeric characters, hyphens, and underscores");
     }
     let firstChar = /^[a-zA-Z]/.test(username)
     if (!firstChar) {
-      console.log("Username must start with a letter.");
-      valid = false;
+      validUserArray.push("Must start with a letter");
+    }
+    if (validUserArray.length !== 0) {
+      outputDiv.innerHTML += `<br>Invalid Username (Reason: ${validUserArray.join(" | ")})<br>`;
     }
     // Password verification
     let password = document.getElementById("password").value;
     if (password.length <= 8) {
-      console.log("Password must be at least 8 characters long.");
-      valid = false;
+      validPassArray.push("Password must be at least 8 characters long");
     }
-    let passPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])$/.test(username);
+    let passPattern = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/.test(password);
     if (!passPattern) {
-      console.log("Password must contain at least one uppercase letter, one lowercase letter, one number, and one\n" +
-              "special character.");
-      valid = false;
+      validPassArray.push("Password must contain at least one uppercase letter, one lowercase letter, one number, and one\n" +
+              "special character");
     }
     let spaceCheck = /\s/.test(password);
-    if (password) {
-      console.log("Password must not contain any spaces");
-      valid = false;
+    if (spaceCheck) {
+      validPassArray.push("Password must not contain any spaces");
+    }
+    if (validPassArray.length !== 0) {
+      outputDiv.innerHTML += `<br>Invalid Password (Reason: ${validPassArray.join(" | ")})<br>`;
     }
     // ConfirmPassword verification
     let confirmPassword = document.getElementById("confirmPassword").value;
     if (confirmPassword !== password) {
-      console.log("Password must match");
-      valid = false;
+      outputDiv.innerHTML += `<br>Passwords do not match<br>`;
+      validConfirm = false;
     }
     // Email verification
     let email = document.getElementById("email").value;
     let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
-    if (!email) {
-      console.log("Valid email format must be provided (e.g., username@example.com)");
-      valid = false;
+    if (!emailPattern) {
+      validEmailArray.push("Must use valid email format (e.g., username@example.com)")
     }
-
-    if (valid) {
-
+    spaceCheck = /\s/.test(email);
+    if (spaceCheck) {
+      validEmailArray.push("Email must not contain any spaces");
     }
+    if (validEmailArray.length !== 0) {
+      outputDiv.innerHTML += `<br>Invalid Email (Reason: ${validEmailArray.join(" | ")})<br>`;
+    }
+    if (validUserArray.length === 0 && validPassArray.length === 0 && validConfirm === true && validEmailArray.length === 0){
+      outputDiv.innerHTML = `<br>Signup successful! Redirecting to login page...<br><br>`;
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 2000);
+    }
+    outputDiv.appendChild(outputDiv);
   }
 </script>
 </body>

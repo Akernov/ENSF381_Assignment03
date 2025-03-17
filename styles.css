@@ -90,6 +90,16 @@ button[class="signUpB"]:hover {
     background-color: #45A049;
     opacity: 1.0;
 }
+/* Sign Up */
+div[class="box"] {
+    text-align: center;
+    width: 80%;
+    min-height: 20px;
+    background-color: #f8f9fa;
+    border: 2px solid #000000;
+    margin: 0 auto;
+    padding: 10px;
+}
 
 /* Buttons */
 main button {
