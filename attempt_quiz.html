@@ -1,20 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attempt Quiz - LMS</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script>
+        let timeLeft = 600; // 10 minutes in seconds
+        function startTimer() {
+            const timerElement = document.getElementById("quiz-timer");
+            const timerInterval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Time is up! Redirecting to the leaderboard.");
+                    window.location.href = "leaderboard.html";
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function validateAndSubmit(event) {
+            event.preventDefault();
+            let score = 0;
+
+            // Validate Q1
+            const q1Correct = document.getElementById("q1a").checked;
+            if (q1Correct) score += 50;
+
+            // Validate Q2
+            const q2a = document.getElementById("q2a").checked;
+            const q2b = document.getElementById("q2b").checked;
+            if (q2a) score += 25;
+            if (q2b) score += 25;
+
+            // Check if any question is unanswered
+            if (!document.querySelector('input[name="q1"]:checked')) {
+                alert("Please answer Question 1.");
+                return;
+            }
+            if (!q2a && !q2b) {
+                alert("Please select at least one option for Question 2.");
+                return;
+            }
+
+            alert("Quiz submitted! Your score: " + score + "/100");
+            document.getElementById("score-display").textContent = "Final Score: " + score + "/100";
+        }
+
+        window.onload = startTimer;
+    </script>
 </head>
+
 <body>
     <header>
         <img src="logo.jpg" alt="LMS Logo" style="width: 100px; height: 100px;">
         <h1>LMS - Learning Management System</h1>
+        <div id="quiz-timer" style="font-size: 20px; font-weight: bold;">10:00</div>
     </header>
     <div>
         <nav>
             <a href="index.html">Homepage</a>
-            <a href="course_view.html">Courses</a> 
+            <a href="course_view.html">Courses</a>
         </nav>
     </div>
     <main class="attemptquiz">
@@ -26,7 +76,7 @@
             <p>Deadline: 11:59 PM, February 10, 2025</p>
             <p>Attempts Allowed: 1</p>
         </div>
-        
+
         <h3>Question 1</h3>
         <p>What does HTML stand for?</p>
         <div class="Qs">
@@ -36,26 +86,23 @@
             <label for="q1b">Home Tool Markup Language</label><br>
         </div>
         <br>
-        <button class="ans">Submit Answer</button>
-        
+
         <h3>Question 2</h3>
         <p>Which of the following are HTML elements? (Select all that apply)</p>
         <div class="Qs">
-        <input type="checkbox" id="q2a" name="q2" value="<div>">
-        <label for="q2a">&lt;div&gt;</label><br>
-        <input type="checkbox" id="q2b" name="q2" value="<span>">
-        <label for="q2b">&lt;span&gt;</label><br>
+            <input type="checkbox" id="q2a" name="q2" value="<div>">
+            <label for="q2a">&lt;div&gt;</label><br>
+            <input type="checkbox" id="q2b" name="q2" value="<span>">
+            <label for="q2b">&lt;span&gt;</label><br>
         </div>
         <br>
-        <button class="ans">Submit Answer</button>
-        
-        <br><br>
-        <a href="leaderboard.html">
-            <button class="FinQz">Finish Quiz</button>
-        </a>
+
+        <button class="FinQz" onclick="validateAndSubmit(event)">Finish Quiz</button>
+        <p id="score-display" style="font-weight: bold; font-size: 18px;"></p>
     </main>
     <footer>
         <p>&copy; 2025 LMS. All rights reserved.</p>
     </footer>
 </body>
+
 </html>
